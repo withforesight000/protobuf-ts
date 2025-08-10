@@ -1,0 +1,5 @@
+{
+  "name": "@withforesight/proto-ts-sdk",
+  "private": true,
+  "workspaces": ["packages/*"]
+}

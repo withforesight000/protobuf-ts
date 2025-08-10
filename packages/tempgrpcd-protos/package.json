@@ -1,0 +1,11 @@
+{
+  "name": "@withforesight/tempgrpcd-protos",
+  "version": "0.1.0",
+  "type": "module",
+  "exports": { ".": "./index.js" },
+  "files": ["**/*.js", "**/*.d.ts"],
+  "dependencies": {
+    "@protobuf-ts/runtime": "^2.11.1",
+    "@protobuf-ts/runtime-rpc": "^2.11.1"
+  }
+}
