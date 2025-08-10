@@ -1,5 +1,22 @@
 {
   "name": "@withforesight/proto-ts-sdk",
   "private": true,
-  "workspaces": ["packages/*"]
+  "workspaces": ["packages/*"],
+  "description": "Monorepo for protobuf TypeScript SDKs.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/withforesight/protobuf-monorepo.git"
+  },
+  "author": "withforesight",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "echo 'Use buf generate or cargo make gen-ts'",
+    "lint": "echo 'Lint is managed by buf or cargo make lint'"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
 }
