@@ -2,10 +2,14 @@
   "name": "@withforesight/tempgrpcd-protos",
   "version": "0.1.0",
   "type": "module",
-  "exports": { ".": "./index.ts" },
-  "files": ["**/*.ts", "**/*.d.ts"],
-  "dependencies": {
-    "@protobuf-ts/runtime": "^2.11.1",
-    "@protobuf-ts/runtime-rpc": "^2.11.1"
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "prepare": "pnpm run build"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0"
   }
 }
