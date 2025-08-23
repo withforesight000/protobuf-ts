@@ -1,7 +1,7 @@
 {
+  "packageManager": "pnpm@10",
   "name": "@withforesight/proto-ts-sdk",
   "private": true,
-  "workspaces": ["packages/*"],
   "description": "Monorepo for protobuf TypeScript SDKs.",
   "repository": {
     "type": "git",
