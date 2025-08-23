@@ -1,5 +1,5 @@
 {
-  "packageManager": "pnpm@10",
+  "packageManager": "pnpm@10.15.0",
   "name": "@withforesight/proto-ts-sdk",
   "private": true,
   "description": "Monorepo for protobuf TypeScript SDKs.",
@@ -13,8 +13,7 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "build": "echo 'Use buf generate or cargo make gen-ts'",
-    "lint": "echo 'Lint is managed by buf or cargo make lint'"
+    "build": "pnpm -w -r --filter \"./packages/*\" run build"
   },
   "publishConfig": {
     "access": "public"

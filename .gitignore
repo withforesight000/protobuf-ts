@@ -1,0 +1,39 @@
+# Node and package manager
+node_modules/
+**/node_modules/
+package-lock.json
+yarn.lock
+
+# pnpm
+.pnpm-store/
+pnpm-debug.log*
+
+# Build outputs
+# dist/
+# **/dist/
+# lib/
+# **/lib/
+# coverage/
+# *.tsbuildinfo
+
+# Generated protobuf build artifacts (if you re-generate locally and don't want to track them)
+# src/gen/
+
+# Logs
+npm-debug.log*
+*.log
+
+# OS files
+.DS_Store
+
+# Editor directories
+.vscode/
+.idea/
+
+# Env files
+.env
+.env.*
+
+# Misc
+*.tgz
+/.cache
