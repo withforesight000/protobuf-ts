@@ -37,3 +37,6 @@ npm-debug.log*
 # Misc
 *.tgz
 /.cache
+
+# Release artifacts
+/releases/

@@ -5,7 +5,7 @@
   "description": "Monorepo for protobuf TypeScript SDKs.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/withforesight/protobuf-monorepo.git"
+    "url": "https://github.com/withforesight000/protobuf-ts.git"
   },
   "author": "withforesight",
   "license": "MIT",
@@ -13,7 +13,9 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "build": "pnpm -w -r --filter \"./packages/*\" run build"
+    "build": "pnpm -w -r --filter \"./packages/*\" run build",
+    "release:prepare": "node scripts/prepare-release.mjs",
+    "test:package": "node scripts/test-package.mjs"
   },
   "publishConfig": {
     "access": "public"
