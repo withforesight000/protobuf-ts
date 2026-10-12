@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import { GetAmbientConditionsRequest, GetAmbientConditionsResponse, AmbientCondition, Timestamp, TempgrpcdServiceClient } from '@withforesight/tempgrpcd-protos';
+assert.equal(typeof AmbientCondition.toBinary, 'function');
+assert.equal(typeof TempgrpcdServiceClient, 'function');
+const timestamp = { seconds: '1', nanos: 2 };
+assert.deepEqual(Timestamp.fromBinary(Timestamp.toBinary(timestamp)), timestamp);
+const request = { startTime: timestamp, samples: '18446744073709551615' };
+const bytes = GetAmbientConditionsRequest.toBinary(request);
+assert.equal(Buffer.from(bytes).toString('hex'), '0a040801100218ffffffffffffffffff01');
+assert.deepEqual(GetAmbientConditionsRequest.fromBinary(bytes), request);
+const message = { ambientConditions: { sensor: { temperature: 22.5, humidity: 50, illumination: 100 } } };
+assert.deepEqual(GetAmbientConditionsResponse.fromBinary(GetAmbientConditionsResponse.toBinary(message)), message);
+assert.deepEqual(GetAmbientConditionsResponse.fromBinary(new Uint8Array()), { ambientConditions: {} });
+console.log('Bun import and protobuf compatibility passed');

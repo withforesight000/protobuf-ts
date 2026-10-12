@@ -4,7 +4,11 @@
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist",
+    "LICENSE",
+    "THIRD_PARTY_NOTICES"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -21,5 +25,12 @@
   },
   "devDependencies": {
     "typescript": "^5.6.0"
+  },
+  "license": "MIT",
+  "author": "withforesight",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/withforesight000/protobuf-ts.git",
+    "directory": "packages/tempgrpcd-protos"
   }
 }
