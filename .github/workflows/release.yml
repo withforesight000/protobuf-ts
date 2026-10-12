@@ -1,0 +1,83 @@
+name: Release protobuf package
+on:
+  push:
+    tags: ['tempgrpcd-protos-v*']
+permissions:
+  contents: read
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+      - uses: pnpm/action-setup@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.3
+      - name: Validate tag, main ancestry and absence of existing release
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/guard-release.mjs
+      - run: pnpm run release:prepare
+      - run: pnpm run test:package
+      - run: pnpm run test:guards
+      - run: node scripts/verify-release.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-assets
+          path: releases/
+          if-no-files-found: error
+  publish:
+    needs: prepare
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+      - uses: pnpm/action-setup@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.3
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-assets
+          path: releases/
+      - name: Recheck publication guard
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/guard-release.mjs
+      - name: Create draft and verify uploaded assets
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          node scripts/verify-release.mjs
+          gh release create "$RELEASE_TAG" releases/* --verify-tag --draft \
+            --title "$RELEASE_TAG" --notes "Standalone protobuf package. See provenance.json and SHA256SUMS for source and integrity."
+          mkdir downloaded
+          gh release download "$RELEASE_TAG" --dir downloaded
+          node scripts/verify-release.mjs downloaded
+          cmp releases/provenance.json downloaded/provenance.json
+          cmp releases/SHA256SUMS downloaded/SHA256SUMS
+          cmp "releases/tempgrpcd-protos-${RELEASE_TAG#tempgrpcd-protos-v}.tgz" "downloaded/tempgrpcd-protos-${RELEASE_TAG#tempgrpcd-protos-v}.tgz"
+      - name: Publish release
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+          GH_TOKEN: ${{ github.token }}
+        run: gh release edit "$RELEASE_TAG" --draft=false
+      - name: Verify anonymous downloads and Bun consumer
+        run: pnpm run test:release
